@@ -12,11 +12,8 @@ class Movie:
 
         Args:
             key (str): String representing the api key.
-            URL (str): Optional parameter - a string representing the base URL for the API endpoint
+            url (str): Optional parameter - a string representing the base URL for the API endpoint
                         (defaults to https://the-one-api.dev/v2).
-
-        Returns:
-            NULL
 
         Examples:
             .. code:: python
@@ -31,8 +28,14 @@ class Movie:
         """Make http get call to the endpoint with the baseline path + the path parameter.
         Will return the response or raise an exception if it failed.
 
+        Args:
+            path (str): relative path to the base URL
+
         Returns:
             content (json): the content of the response
+
+        Raises:
+            requests.exceptions: Reraises any requests exceptions without an override.
 
         Examples:
             .. code:: python
@@ -43,9 +46,9 @@ class Movie:
             response = requests.get(f"{self.base_url}/{path.lstrip('/')}", headers=self.headers)
             response.raise_for_status()
             return response.json()["docs"]
-        except Exception as e:
+        except requests.exceptions as e:
             print(f"Failed to query {self.base_url}/{path.lstrip('/')} with error: {e}")
-            raise (e)
+            raise e
 
     def list(self) -> list:
         """Get list of all the movies with their metadata.
