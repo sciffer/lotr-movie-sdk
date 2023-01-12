@@ -1,9 +1,13 @@
 """Lord Of The Rings Movie SDK, based on the api exposed by: https://the-one-api.dev/."""
+from typing import Dict, List
+
+from pickle import DICT
+
 import requests
 
 
 class Movie:
-    def __init__(self, key: str, url: str = "https://the-one-api.dev/v2"):
+    def __init__(self, key: str, url: str = "https://the-one-api.dev/v2") -> None:
         """Initialization of the movie SDK that sets the api key & URL of the endpoint.
 
         Args:
@@ -22,9 +26,8 @@ class Movie:
         """
         self.headers = {"Accept": "application/json", "Authorization": f"Bearer {key}"}
         self.base_url = url.rstrip("/")
-        return
 
-    def _http_get(self, path: str):
+    def _http_get(self, path: str) -> object:
         """Make http get call to the endpoint with the baseline path + the path parameter.
         Will return the response or raise an exception if it failed.
 
@@ -44,11 +47,11 @@ class Movie:
             print(f"Failed to query {self.base_url}/{path.lstrip('/')} with error: {e}")
             raise (e)
 
-    def list(self):
+    def list(self) -> list:
         """Get list of all the movies with their metadata.
 
         Returns:
-            json: list of movies with their metadata
+            List: list of movies with their metadata
 
         Examples:
             .. code:: python
@@ -58,14 +61,14 @@ class Movie:
         """
         return self._http_get("movie")
 
-    def get(self, id: str):
+    def get(self, id: str) -> dict:
         """Get the metadata of a movie with the specified id.
 
         Args:
             id (str): String representing the movie id.
 
         Returns:
-            json: movie details
+            Dict: movie details
 
         Examples:
             .. code:: python
@@ -75,14 +78,14 @@ class Movie:
         """
         return self._http_get(f"movie/{id}")
 
-    def quotes(self, id: str):
+    def quotes(self, id: str) -> list:
         """List all the quotes of a movie with the specified id.
 
         Args:
             id (str): String representing the movie id.
 
         Returns:
-            json: list of movie quotes
+            List: list of movie quotes
 
         Examples:
             .. code:: python

@@ -6,7 +6,7 @@ import pytest
 from lotr_movie_sdk.movie import Movie
 
 
-def test_movie_list(name, expected):
+def test_movie_list(response_mock):
     """Movie test with parametrization."""
     content = [{"_id": "fakeid1", "name": "movie1name"}, {"_id": "fakeid2", "name": "movie2name"}]
     response = json.dumps({"docs": content, "total": 2})
@@ -22,7 +22,7 @@ def test_movie_list(name, expected):
         ("234sdf", {"_id": "234sdf", "name": "movie2name"}),
     ],
 )
-def test_movie(id, expected):
+def test_movie(id, expected, response_mock):
     """Movie test with parametrization."""
     response = json.dumps({"docs": expected, "total": 1})
     with response_mock(f"GET http://mock.test/v1/movie/{id} -> 200 :{response}", bypass=False):
@@ -38,9 +38,9 @@ def test_movie(id, expected):
         ("3f33rf", []),
     ],
 )
-def test_movie_quotes(id, expected):
+def test_movie_quotes(id, expected, response_mock):
     """Movie test with parametrization."""
     response = json.dumps({"docs": expected, "total": len(expected)})
-    with response_mock(f"GET http://mock.test/v1/movie/{id} -> 200 :{response}", bypass=False):
+    with response_mock(f"GET http://mock.test/v1/movie/{id}/quote -> 200 :{response}", bypass=False):
         m = Movie("mocktestkey", "http://mock.test/v1/")
         assert m.quotes(id) == expected
