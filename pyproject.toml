@@ -5,7 +5,7 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry]
 name = "lotr-movie-sdk"
-version = "0.1.0"
+version = "0.1.1"
 description = "Lord Of TheRings Movie SDK - Test for LibLab"
 readme = "README.md"
 authors = ["sciffer <shaly.c@gmail.com>"]
